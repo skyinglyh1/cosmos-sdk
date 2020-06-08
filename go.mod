@@ -4,14 +4,16 @@ require (
 	github.com/99designs/keyring v1.1.3
 	github.com/bartekn/go-bip39 v0.0.0-20171116152956-a05967ea095d
 	github.com/bgentry/speakeasy v0.1.0
-	github.com/btcsuite/btcd v0.0.0-20190115013929-ed77733ec07d
+	github.com/btcsuite/btcd v0.20.1-beta
 	github.com/cosmos/go-bip39 v0.0.0-20180819234021-555e2067c45d
 	github.com/cosmos/ledger-cosmos-go v0.11.1
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/mock v1.3.1-0.20190508161146-9fa652df1129
 	github.com/gorilla/mux v1.7.3
 	github.com/hashicorp/golang-lru v0.5.4
+	github.com/itchyny/base58-go v0.1.0
 	github.com/mattn/go-isatty v0.0.12
+	github.com/ontio/ontology-crypto v1.0.9
 	github.com/pelletier/go-toml v1.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/rakyll/statik v0.1.6
@@ -27,6 +29,7 @@ require (
 	github.com/tendermint/iavl v0.13.2
 	github.com/tendermint/tendermint v0.33.3
 	github.com/tendermint/tm-db v0.5.0
+	golang.org/x/crypto v0.0.0-20200311171314-f7b00557c8c4
 	gopkg.in/yaml.v2 v2.2.8
 )
 

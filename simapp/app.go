@@ -1,6 +1,7 @@
 package simapp
 
 import (
+	"github.com/cosmos/cosmos-sdk/x/headersync"
 	"io"
 	"os"
 
@@ -109,19 +110,19 @@ type SimApp struct {
 	subspaces map[string]params.Subspace
 
 	// keepers
-	AccountKeeper  auth.AccountKeeper
-	BankKeeper     bank.Keeper
-	SupplyKeeper   supply.Keeper
-	StakingKeeper  staking.Keeper
-	SlashingKeeper slashing.Keeper
-	MintKeeper     mint.Keeper
-	DistrKeeper    distr.Keeper
-	GovKeeper      gov.Keeper
-	CrisisKeeper   crisis.Keeper
-	UpgradeKeeper  upgrade.Keeper
-	ParamsKeeper   params.Keeper
-	EvidenceKeeper evidence.Keeper
-
+	AccountKeeper    auth.AccountKeeper
+	BankKeeper       bank.Keeper
+	SupplyKeeper     supply.Keeper
+	StakingKeeper    staking.Keeper
+	SlashingKeeper   slashing.Keeper
+	MintKeeper       mint.Keeper
+	DistrKeeper      distr.Keeper
+	GovKeeper        gov.Keeper
+	CrisisKeeper     crisis.Keeper
+	UpgradeKeeper    upgrade.Keeper
+	ParamsKeeper     params.Keeper
+	EvidenceKeeper   evidence.Keeper
+	HeaderSyncKeeper headersync.Keeper
 	// the module manager
 	mm *module.Manager
 
@@ -145,6 +146,7 @@ func NewSimApp(
 		bam.MainStoreKey, auth.StoreKey, staking.StoreKey,
 		supply.StoreKey, mint.StoreKey, distr.StoreKey, slashing.StoreKey,
 		gov.StoreKey, params.StoreKey, upgrade.StoreKey, evidence.StoreKey,
+		headersync.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(params.TStoreKey)
 
@@ -224,6 +226,8 @@ func NewSimApp(
 		staking.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks()),
 	)
 
+	app.HeaderSyncKeeper = headersync.NewKeeper(app.cdc, keys[headersync.StoreKey])
+
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
 	app.mm = module.NewManager(
@@ -239,6 +243,7 @@ func NewSimApp(
 		staking.NewAppModule(app.StakingKeeper, app.AccountKeeper, app.SupplyKeeper),
 		upgrade.NewAppModule(app.UpgradeKeeper),
 		evidence.NewAppModule(app.EvidenceKeeper),
+		headersync.NewAppModule(app.HeaderSyncKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
